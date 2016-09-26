@@ -20,7 +20,7 @@
 No worries - it just downloads a Python script. There won't be anything installed or written elsewhere.
 
 ```sh
-$ curl https://raw.githubusercontent.com/schickling/docker-hook/master/docker-hook > /usr/local/bin/docker-hook; chmod +x /usr/local/bin/docker-hook
+$ curl https://raw.githubusercontent.com/zacksleo/docker-hook/master/docker-hook > /usr/local/bin/docker-hook; chmod +x /usr/local/bin/docker-hook
 ```
 
 ### install requests modules for python
@@ -44,7 +44,7 @@ Please choose a secure `auth-token` string or generate one with `$ uuidgen`. Kee
 
 The `command` can be any bash command of your choice. See the following [example](#example). This command will be triggered each time someone makes a HTTP request.
 
-### 2. Configuration On Docker Hub
+### 2. Configuration On Docker Hub / GitLab
 
 Add a webhook like on the following image. `example.com` can be the domain of your server or its ip address. `docker-hook` listens to port `8555`. Please replace `my-super-safe-token` with your `auth-token`.
 
@@ -63,10 +63,8 @@ $ docker-hook -t my-super-safe-token -c sh ./deploy.sh
 ```sh
 #! /bin/bash
 
-IMAGE="yourname/app"
-docker ps | grep $IMAGE | awk '{print $1}' | xargs docker stop
-docker pull $IMAGE
-docker run -d $IMAGE
+git pull origin dev
+
 ```
 
 You can now test it by pushing something to `yourname/app` or by running the following command where `yourdomain.com` is either a domain pointing to your server or just its ip address.
